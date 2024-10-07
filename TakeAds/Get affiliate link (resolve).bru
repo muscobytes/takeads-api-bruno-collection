@@ -1,0 +1,25 @@
+meta {
+  name: Get affiliate link (resolve)
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{BASE_URL}}/v1/product/monetize-api/v2/resolve
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "iris": [
+      "https://aliexpress.com",
+      "https://temu.com"
+    ],
+    "subId": "test"
+  }
+}

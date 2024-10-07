@@ -1,0 +1,15 @@
+meta {
+  name: Get list of merchants
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://api.takeads.com/v1/product/monetize-api/v2/merchant?next=100346
+  body: none
+  auth: inherit
+}
+
+query {
+  next: 100346
+}

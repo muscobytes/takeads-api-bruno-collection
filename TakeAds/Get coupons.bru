@@ -1,0 +1,138 @@
+meta {
+  name: Get coupons
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{BASE_URL}}/v1/product/monetize-api/v1/coupon?isActive=true&languageCodes=ru&languageCodes=en
+  body: none
+  auth: inherit
+}
+
+query {
+  isActive: true
+  languageCodes: ru
+  languageCodes: en
+  ~categoryIds: 
+  ~countryCodes: 
+  ~next: 
+  ~updatedAtFrom: 
+  ~updatedAtTo: 
+  ~startDateBefore: 
+  ~endDateAfter: 
+  ~limit: 100
+}
+
+script:post-response {
+  if (
+    res.body.hasOwnProperty("meta") &&
+    res.body.meta.hasOwnProperty("next") &&
+    res.body.meta.next !== null
+  ) {
+    // console.log(res.body.meta.next);
+    // req.url.searchParams.set('next', res.body.meta.next);
+  }
+}
+
+docs {
+  # [Get coupons](https://developers.takeads.com/hc/en-us/articles/24442192533649-Get-coupons)
+  
+  The Take API returns a list of all coupons, applying filters, if any.
+  
+  ## Request
+  
+  **URL:** `https://api.takeads.com/v1/product/monetize-api/v1/coupon`
+  
+  **Method:** GET
+  
+  ### Request headers
+  
+  - Header:	`Authorization`
+  - Value: `Bearer`
+  - Description: Header with a platform public key value, which is a string of alphanumeric characters with _Bearer_ as prefix, used to authenticate and authorize your API requests. \
+  To learn how to get your Public key, refer to the [Authorization](https://developers.takeads.com/hc/en-us/articles/16356581520145-Authorization) article.
+  
+  ### Query Parameters
+  You can use query parameters to get information on specific coupons.
+  
+  **This endpoint has no required parameters.** If no query parameters are specified, you will receive the first page with 100 coupons in our data feed (100 is the default setting).
+  
+  The following table describes query parameters that you can use in the request.
+  
+  - `isActive` (optional) — **boolean**. Flag indicating if a coupon is active.
+  - `updatedAtFrom` (optional) — **string**. Minimum date of the last update of the coupon in ISO 8601: 1988 (E) format.
+  - `updatedAtTo` (optional) — **string**. Maximum date of the last update of the coupon in ISO 8601: 1988 (E) format.
+  - `startDateBefore` (optional) — **string**. Date until which the coupon became active in ISO 8601: 1988 (E) format.
+  - `endDateAfter` (optional) — **string**. Date after which the coupon will become inactive in ISO 8601: 1988 (E) format.
+  - `languageCodes` (optional) — **array of strings**. ISO 639-1 alpha-2 language code supported by the coupon merchant.
+  - `categoryIds` (optional) — **array of integers**. Coupon category identifiers.
+  - `countryCodes` (optional) — **array of strings**. ISO 639-1 alpha-2 language codes.
+  - `next` (optional) — **string**. Identifier of the next page to retrieve.
+  - `limit` (optional) — **integer**. Maximum number of entries to return. The default value is 100.
+  
+  ## Response
+  
+  If the request was successfully processed by the server, the HTTP response with a status code of 200 and a list of available coupons is returned.
+  
+  The response payload is a JSON object that contains a meta object with metadata and a data array with details of coupons. Each item of the array is an object with the details of the coupons retrieved according to the request.
+  
+  The following table describes the response metadata.
+  
+  - `next` — **string**. A pointer (string) to the next page of the coupon list. If specified, a list of coupons from the indicated page is retrieved. If the value is null, the returned result is a list of coupons from the last page.
+  
+  The following table describes the response properties from the data array.
+  - `couponId` — **string**. Coupon unique identifier.
+  - `isActive` — **boolean**. Flag indicating if a coupon is active.
+  - `trackingLink` — **string**. Affiliate link (RFC 3986).
+  - `name` — **string**. Coupon name.
+  - `code` — **string**. Coupon code.
+  - `merchantId` — **integer**. Merchant unique identifier.
+  - `imageUri` — **string**. URI to the coupon logo.
+  - `languageCodes` — **string**. Array of languages supported by the website in ISO 639-1 alpha-2 format. If the value is empty, the coupon languages are unknown.
+  - `startDate` — **string**. Date from which the coupon can be applied.
+  - `endDate` — **string**. Date after which the coupon will no longer apply.
+  - `description` — **string**. Detailed information about the coupon, including usage conditions and limitations.
+  - `countryCodes` — **string**. List of country codes in ISO 3166-1 alpha-2 format where the coupon operates.
+  - `categoryId` - **integer**. List of merchant category identifiers.
+  - `createdAt` - **string**. Date of the last update of the coupon in ISO 8601: 1988 (E) format.
+  - `updatedAt` — **string**. Date of the last update of the coupon in ISO 8601: 1988 (E) format.
+  
+  ### Example value
+  
+  ```json
+  {
+    "meta": {
+      "next": "V1StGXR8_Z5jdHi6B-myT"
+    },
+    "data": [
+      {
+        "couponId": "V1StGXR8_Z5jdHi6B-myT",
+        "isActive": true,
+        "trackingLink": "https://tatrck.com/h/0Hu30w1D0KX9?url=https://aliexpress.com/item/1005003993360501.html&s=subid",
+        "name": "ACME",
+        "code": "10OFF",
+        "merchantId": 12345,
+        "imageUri": "https://sitesample.com/image.svg",
+        "languageCodes": [
+          "en",
+          "de"
+        ],
+        "startDate": "2023-01-30T08:07:12.166Z",
+        "endDate": "2023-01-30T08:07:12.166Z",
+        "description": "string",
+        "countryCodes": [
+          "US",
+          "DE",
+          "FR"
+        ],
+        "categoryIds": [
+          12
+        ],
+        "createdAt": "2023-01-30T08:07:12.166Z",
+        "updatedAt": "2023-01-30T08:07:12.166Z"
+      }
+    ]
+  }
+  ```
+}

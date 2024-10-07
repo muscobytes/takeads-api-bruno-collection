@@ -1,0 +1,61 @@
+auth {
+  mode: bearer
+}
+
+auth:bearer {
+  token: {{BEARER_TOKEN}}
+}
+
+docs {
+  # Authorization
+  
+  ## Authentication
+  The Takeads API authenticates all incoming requests using the API keys. Authentication secures the API data and ensures that it is accessible only to the identified users.
+  
+  Every request to the Takeads API must contain the API public key passed in the request header as a key-value pair, as follows:
+  
+  ```
+  Authorization: Bearer <PublicKey>
+  ```
+  
+  where you replace `PublicKey` with the Public Key value generated for your Takeads platform(s) and account.
+  
+  Depending on the information you want to access, you need to receive credentials for:
+  
+  your [platform](https://developers.takeads.com/hc/en-us/articles/16356581520145-Authorization#platform-API-keys) to use the following endpoints:
+  - [Get list of programs](https://developers.takeads.com/hc/en-us/articles/16357135400593-Get-list-of-programs-obsolete)
+  - [Get affiliate link](https://developers.takeads.com/hc/en-us/articles/22395812286609-Get-affiliate-link)
+  - [Get coupons](https://developers.takeads.com/hc/en-us/articles/24442192533649-Get-coupons)
+  - [Search for coupons](https://developers.takeads.com/hc/en-us/articles/24438623485585-Search-for-coupons)
+  
+  your [account](https://developers.takeads.com/hc/en-us/articles/16356581520145-Authorization#account-API-keys) to use the following endpoints:
+  - [Get report on actions](https://developers.takeads.com/hc/en-us/articles/16357622105873-Get-report-on-actions)
+  - [Get report on clicks](https://developers.takeads.com/hc/en-us/articles/16357735505553-Get-report-on-clicks)
+  
+  ## Receive platform API keys
+  Before receiving the credentials for the platform, make sure you have added this platform to your account. [How to add a platform](https://support.mitgo.com/hc/en-us/articles/5579502533009-How-to-add-a-platform-on-Takeads)
+  
+  To get API keys for the platform, follow the steps below:
+  1. Go to the [Dashboard](https://account.takeads.com/platforms) section.
+  2. Select the platform and click the gear icon.
+  3. Copy the Public key and add it to the header when sending API requests.
+  
+  To generate new credentials, click **Regenerate credentials**. When you regenerate credentials, all requests that use old credentials won’t be authenticated and processed.
+  
+  ## Receive account API keys
+  To get API keys for the account, follow the steps below:
+  1. Log in to your [account](https://account.takeads.com/).
+  2. In the navigation panel on the left, select **Settings**.
+  3. On the page that opens, in the **Allowed origins** field, do the following:
+  3.1 Enter the origin(s) that will be authorized to make API requests from your client (browser, extension, or app). You can add multiple origins. If you have only one origin added, you can’t delete it, only replace.
+  
+  The origin must include a scheme, domain, and port (if the port is other than 80), for example `https://fb.com:8080`.
+  
+  3.2 If you make API calls directly from your server, select the checkbox “I'll use server-to-server integration with Take API and won't make client-side requests”.
+  
+  4. The Public key will be automatically generated.
+  
+  5. Copy the Public key and add it to the header when sending API requests.
+  
+  To generate new credentials, click **Regenerate credentials**. When you regenerate credentials, all requests that use old credentials won’t be authenticated and processed.
+}
